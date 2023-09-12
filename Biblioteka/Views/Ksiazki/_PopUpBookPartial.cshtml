@@ -1,0 +1,30 @@
+﻿@model Biblioteka.Models.Ksiazka
+
+@using (Html.BeginForm("Save", "Ksiazki", FormMethod.Post, new { @id = "bookForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" id="bookId" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Tytul, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Tytul, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Tytul, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Autor, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Autor, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Autor, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataPrzeczytania, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DataPrzeczytania, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+        @Html.ValidationMessageFor(model => model.DataPrzeczytania, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+}

@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Biblioteka.Models.Ksiazka>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Lista Ksiązek</h2>
+<p>
+    <a href="@Url.Action("Create", "Ksiazki", null)" id="Create" class="btn btn-primary" data_modal="true">Dodaj Książkę</a>
+    <a href="@Url.Action("Index", "Ksiazki", new { przeczytane = true })">Przeczytane</a> |
+    <a href="@Url.Action("Index", "Ksiazki", new { przeczytane = false })">Nieprzeczytane</a> |
+    <a href="@Url.Action("Index", "Ksiazki")">Wszystkie</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tytul)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPrzeczytania)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tytul)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autor)
+                </td>
+                <td>
+                    @if (item.DataPrzeczytania.HasValue)
+                    {
+                        @item.DataPrzeczytania.Value.ToShortDateString()
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Ksiazki", new { id = item.Id })" id="Edit" class="btn btn-primary" data_modal="true">Edytuj</a>
+                    <a href="@Url.Action("Delete", "Ksiazki", new { id = item.Id })" class="btn btn-danger delete-book" data-confirm="Czy na pewno chcesz usunąć tę książkę?">Usuń</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<!-- Modal -->
+<div id="createNewModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title page-header" id="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+            $("a[data_modal='true']").click(function (e) {
+                e.preventDefault(); // Zatrzymaj domyślną nawigację
+
+                var url = $(this).attr("href");
+
+                var text = "Edytuj książkę";
+                if ($(this).attr("id") == "Create")
+                    text = "Dodaj książkę";
+               
+                $.get(url, function (data) {
+                    
+                        $("#modal-title").text(text);
+                        $("#createNewModal .modal-body").html(data);
+                    $("#createNewModal").modal("show");
+
+                    if (data.success) {
+                        location.reload();
+                    }
+
+                    
+                });
+            });
+
+            // Obsługa kliknięcia przycisku "Usuń" z potwierdzeniem
+            $("a.delete-book").click(function (e) {
+                e.preventDefault();
+                var url = $(this).attr("href");
+                var confirmation = $(this).data("confirm");
+
+                if (confirm(confirmation)) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                alert("Wystąpił błąd podczas usuwania książki.");
+                            }
+                        },
+                        error: function () {
+                            alert("Wystąpił błąd podczas komunikacji z serwerem.");
+                        }
+                    });
+                }
+            });
+
+            $("#createNewModal").on("submit", "form", function (e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var url = form.attr("action");
+                var data = form.serialize();
+
+                $.post(url, data, function (response) {
+                    if (response.success) {
+                        $("#createNewModal").modal("hide"); // Schowaj modal po sukcesie
+                        location.reload(); // Przeładuj stronę po sukcesie
+                    } else {
+                        // Obsługa błędów walidacji lub innych błędów
+                        form.replaceWith(response.html); // Zaktualizuj formularz z błędami
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+}
+
+
+
+
