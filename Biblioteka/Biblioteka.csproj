@@ -190,8 +190,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FilmyController.cs" />
     <Compile Include="Controllers\KsiazkiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SerialeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -203,9 +205,15 @@
     <Compile Include="Migrations\202309111706482_dataBase1.Designer.cs">
       <DependentUpon>202309111706482_dataBase1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309141012319_NazwaMigracji.cs" />
+    <Compile Include="Migrations\202309141012319_NazwaMigracji.Designer.cs">
+      <DependentUpon>202309141012319_NazwaMigracji.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Filmy.cs" />
     <Compile Include="Models\Ksiazka.cs" />
+    <Compile Include="Models\Seriale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +254,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Ksiazki\Index.cshtml" />
     <Content Include="Views\Ksiazki\_PopUpBookPartial.cshtml" />
+    <Content Include="Views\Filmy\Index.cshtml" />
+    <Content Include="Views\Filmy\_PopUpBookPartial.cshtml" />
+    <Content Include="Views\Seriale\Index.cshtml" />
+    <Content Include="Views\Seriale\_PopUpBookPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -269,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309111706482_dataBase1.resx">
       <DependentUpon>202309111706482_dataBase1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309141012319_NazwaMigracji.resx">
+      <DependentUpon>202309141012319_NazwaMigracji.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

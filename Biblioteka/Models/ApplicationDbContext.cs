@@ -9,5 +9,7 @@ namespace Biblioteka.Models
 
         }
         public DbSet<Ksiazka> Ksiazki { get; set; }
+        public DbSet<Filmy> Filmy { get; set; }
+        public DbSet<Seriale> Seriale { get; set; }
     }
 }
